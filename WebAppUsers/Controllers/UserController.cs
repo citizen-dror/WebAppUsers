@@ -29,37 +29,47 @@ namespace WebAppUsers.Controllers
         // public async Task<ActionResult<User>> GetUer(long id)
         public ActionResult<User> GetUer(long id)
         {
-            User user = new User();
-            user.UserId = id;
-            user.FirstName = "bob";
-            user.LastName = "marly";
-            user.CreateDate = DateTime.Now;
-            return user;
-            //var user = await _context.TodoItems.FindAsync(id);
+            User res= null;
+            try
+            {
+                UserService service = new UserService(_context);
+                res = service.getUser(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return Content("-1");
+            }
+        }
 
-            //if (todoItem == null)
-            //{
-            //    return NotFound();
-            //}
 
-            //return todoItem;
+        [HttpGet("all")]
+        // public async Task<ActionResult<User>> GetUer(long id)
+        public ActionResult<User> GetAllUsers()
+        {
+            List<User> res = null;
+            try
+            {
+                UserService service = new UserService(_context);
+                res = service.getAllUsers();
+                return Ok(res);
+            }
+            catch
+            {
+                return Content("-1");
+            }
         }
 
         // POST: UserController/Create
         [HttpPost]
-        public ActionResult Create()
+        public ActionResult Create([FromBody] User user)
         {
             try
             {
-                User user = new User();
-                user.FirstName = "bob";
-                user.LastName = "marly";
-                user.WebSite = "google.com";
                 user.CreateDate = DateTime.Now;
-
                 UserService service = new UserService(_context);
                 long res = service.addUSer(user);
-                return Content(res.ToString());
+                return Ok(res);
             }
             catch 
             {

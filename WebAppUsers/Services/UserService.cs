@@ -34,22 +34,35 @@ namespace WebAppUsers.Services
             return res;
         }
 
-        public List<User> getUser()
+        public User getUser(long userId)
         {
-            List<User> res = null;
-            using (var db = _context)
-            {
-                // Read
-                Console.WriteLine("Querying for a blog");
-                res = db.Users.OrderBy(b => b.UserId).ToList();
-            }
-            return res;
+            User res = null;
             try
             {
                 using (var db = _context)
                 {
                     // Read
                     Console.WriteLine("Querying for a user");
+                    res = db.Users.Find(userId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType());
+                throw new Exception(ex.ToString());
+            }
+            return res;
+        }
+
+        public List<User> getAllUsers()
+        {
+            List<User> res = null;
+            try
+            {
+                using (var db = _context)
+                {
+                    // Read
+                    Console.WriteLine("Querying for all users");
                     res = db.Users.OrderBy(b => b.UserId).ToList();
                 }
             }
