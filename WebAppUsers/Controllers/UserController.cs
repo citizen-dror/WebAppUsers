@@ -9,13 +9,13 @@ using WebAppUsers.Services;
 
 namespace WebAppUsers.Controllers
 {
-    public class Person
+    public class UserRes
     {
-        public string Name { get; set; }
+        public string UserId { get; set; }
     }
 
     [ApiController]
-    [Route("api/users")]
+    [Route("api/v1/users")]
     public class UserController : ControllerBase
     {
         private readonly supercomDbContext _context;
@@ -26,56 +26,32 @@ namespace WebAppUsers.Controllers
         }
 
         [HttpGet("{id}")]
-        // public async Task<ActionResult<User>> GetUer(long id)
-        public ActionResult<User> GetUer(long id)
+        public async Task<User> GetUser(long id)
         {
-            User res= null;
-            try
-            {
-                UserService service = new UserService(_context);
-                res = service.getUser(id);
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                return Content("-1");
-            }
+            UserService service = new UserService(_context);
+            var res = await Task.FromResult(service.getUser(id));
+            return res;
         }
 
 
         [HttpGet("all")]
-        // public async Task<ActionResult<User>> GetUer(long id)
-        public ActionResult<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            List<User> res = null;
-            try
-            {
-                UserService service = new UserService(_context);
-                res = service.getAllUsers();
-                return Ok(res);
-            }
-            catch
-            {
-                return Content("-1");
-            }
+            UserService service = new UserService(_context);
+            var res = await Task.FromResult(service.getAllUsers());
+            return res;
         }
 
         // POST: UserController/Create
         [HttpPost]
-        public ActionResult Create([FromBody] User user)
+        public async Task<UserRes> Create([FromBody] User user)
         {
-            try
-            {
-                user.CreateDate = DateTime.Now;
-                UserService service = new UserService(_context);
-                long res = service.addUSer(user);
-                return Ok(res);
-            }
-            catch 
-            {
-                return Content("-1");
-            }
+            user.CreateDate = DateTime.Now;
+            UserService service = new UserService(_context);
+            // long userid = service.addUSer(user);
+            long userid = await Task.FromResult(service.addUSer(user));
+            var res = new UserRes { UserId = userid.ToString() };
+            return res;
         }
-
     }
 }
