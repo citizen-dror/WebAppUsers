@@ -16,5 +16,8 @@ namespace WebAppUsers.DAL
         public string About { get; set; }
         public byte[] Avatar { get; set; }
         public DateTime CreateDate { get; set; }
+        public DateTime LastUpdate { get; set; }
+        public int TaskInterval { get; set; }
+        public DateTime LastTask { get; set; }
     }
 }

@@ -46,10 +46,8 @@ namespace WebAppUsers.Controllers
         [HttpPost]
         public async Task<UserRes> Create([FromBody] User user)
         {
-            user.CreateDate = DateTime.Now;
             UserService service = new UserService(_context);
-            // long userid = service.addUSer(user);
-            long userid = await Task.FromResult(service.addUSer(user));
+            long userid = await Task.FromResult(service.addUser(user));
             var res = new UserRes { UserId = userid.ToString() };
             return res;
         }

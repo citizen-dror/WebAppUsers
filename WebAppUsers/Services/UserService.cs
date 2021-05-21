@@ -74,9 +74,14 @@ namespace WebAppUsers.Services
             return res;
         }
 
-        public long addUSer(DAL.User user)
+        public long addUser(DAL.User user)
         {
             long res = -1;
+            // set start values for the user
+            user.CreateDate = DateTime.Now;
+            user.LastUpdate = DateTime.Now;
+            user.LastTask = DateTime.Now;
+            user.TaskInterval = 10; //default value is 10 minutes
             try
             {
                 using (var db = _context)
