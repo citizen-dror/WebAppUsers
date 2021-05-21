@@ -16,6 +16,8 @@ namespace WebAppUsers
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,10 +28,21 @@ namespace WebAppUsers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string test = Configuration.GetConnectionString("supercomDb");
+            // add connection string to context 
             services.AddDbContext<DAL.supercomDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("supercomDb")));
-            
+
+            //todo - add to config file
+            //The specified URL must not contain a trailing slash(/)
+            string[] AllowedOriginsUrls = new string[] { "http://localhost:3000" };
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins(AllowedOriginsUrls).AllowAnyHeader();
+                                  });
+            });
             services.AddControllers();
         }
 
@@ -44,6 +57,9 @@ namespace WebAppUsers
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //UseCors must be placed after UseRouting, and before UseAuthorization.
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
