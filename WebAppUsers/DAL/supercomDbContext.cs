@@ -17,6 +17,7 @@ namespace WebAppUsers.DAL
         {
         }
 
+        public virtual DbSet<TimeZone> TimeZones { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -31,6 +32,51 @@ namespace WebAppUsers.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<TimeZone>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("PK__TimeZone__737584F733508466");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(32)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CountryCode)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasColumnName("Country_code");
+
+                entity.Property(e => e.LatLon)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(176)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PortionOfCountryCovered)
+                    .HasMaxLength(73)
+                    .IsUnicode(false)
+                    .HasColumnName("Portion_of_country_covered");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UtcDstOffset)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("UTC_DST_offset");
+
+                entity.Property(e => e.UtcOffset)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("UTC_offset");
+            });
 
             modelBuilder.Entity<User>(entity =>
             {
