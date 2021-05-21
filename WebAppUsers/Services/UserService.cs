@@ -77,7 +77,7 @@ namespace WebAppUsers.Services
         public long addUser(DAL.User user)
         {
             long res = -1;
-            // set start values for the user
+            // set default values for the user
             user.CreateDate = DateTime.Now;
             user.LastUpdate = DateTime.Now;
             user.LastTask = DateTime.Now;
