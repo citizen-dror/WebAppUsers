@@ -27,19 +27,21 @@ namespace WebAppUsers.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<User> GetUser(long id)
+        public async Task<UserShortDto> GetUser(long id)
         {
             UserService service = new UserService(_context);
-            var res = await Task.FromResult(service.getUser(id));
+            var res = await Task.FromResult(UeserMapper.ToShortDto(service.getUser(id)));
             return res;
         }
 
-
-        [HttpGet("all")]
-        public async Task<List<User>> GetAllUsers()
+        [HttpGet("")]
+        public async Task<List<UserShortDto>> GetAllUsers()
         {
             UserService service = new UserService(_context);
-            var res = await Task.FromResult(service.getAllUsers());
+            var res = await Task.FromResult(service
+                .getAllUsers()
+                .ConvertAll(x => UeserMapper.ToShortDto(x))
+                );
             return res;
         }
 
