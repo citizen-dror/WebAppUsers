@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebAppUsers.DAL;
-using WebAppUsers.Services;
+using DataLibrary.Models;
+using DataLibrary.BL;
 
 namespace WebAppUsers.Controllers
 {
@@ -19,7 +19,7 @@ namespace WebAppUsers.Controllers
 
         [HttpGet("")]
         // public async Task<ActionResult<User>> GetUer(long id)
-        public async Task<List<DAL.TimeZone>> GetAll()
+        public async Task<List<DataLibrary.Models.TimeZone>> GetAll()
         {
             TimeZoneService service = new TimeZoneService(_context);
             var res = await Task.FromResult(service.getAll());

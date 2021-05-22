@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebAppUsers.DAL;
+using DataLibrary.Models;
 
-namespace WebAppUsers.Services
+namespace DataLibrary.BL
 {
     public class TimeZoneService
     {
@@ -14,9 +14,9 @@ namespace WebAppUsers.Services
             _context = context;
         }
 
-        public List<DAL.TimeZone> getAll()
+        public List<Models.TimeZone> getAll()
         {
-            List<DAL.TimeZone> res = null;
+            List<Models.TimeZone> res = null;
             try
             {
                 using (var db = _context)

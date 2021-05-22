@@ -1,3 +1,4 @@
+using DataLibrary.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +30,7 @@ namespace WebAppUsers
         public void ConfigureServices(IServiceCollection services)
         {
             // add connection string to context 
-            services.AddDbContext<DAL.supercomDbContext>(options =>
+            services.AddDbContext<supercomDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("supercomDb")));
 
             //todo - add to config file

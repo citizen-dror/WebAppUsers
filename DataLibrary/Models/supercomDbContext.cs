@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace WebAppUsers.DAL
+namespace DataLibrary.Models
 {
     public partial class supercomDbContext : DbContext
     {
@@ -92,9 +92,9 @@ namespace WebAppUsers.DAL
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.LastTask).HasColumnType("datetime");
-
                 entity.Property(e => e.LastUpdate).HasColumnType("datetime");
+
+                entity.Property(e => e.NextTask).HasColumnType("datetime");
 
                 entity.Property(e => e.PhoneSkype)
                     .HasMaxLength(200)

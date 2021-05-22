@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
-using WebAppUsers.DAL;
+using DataLibrary.Models;
 
-namespace WebAppUsers.Services
+namespace DataLibrary.BL
 {
     public class UserService
     {
@@ -74,13 +74,14 @@ namespace WebAppUsers.Services
             return res;
         }
 
-        public long addUser(DAL.User user)
+        public long addUser(Models.User user)
         {
             long res = -1;
             // set default values for the user
             user.CreateDate = DateTime.Now;
             user.LastUpdate = DateTime.Now;
-            user.LastTask = DateTime.Now;
+            user.NextTask = DateTime.Now;
+            user.SendTasks = true;
             user.TaskInterval = 10; //default value is 10 minutes
             try
             {

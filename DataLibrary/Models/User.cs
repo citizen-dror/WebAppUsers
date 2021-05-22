@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace WebAppUsers.DAL
+namespace DataLibrary.Models
 {
     public partial class User
     {
@@ -17,7 +17,8 @@ namespace WebAppUsers.DAL
         public byte[] Avatar { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastUpdate { get; set; }
+        public bool? SendTasks { get; set; }
         public int TaskInterval { get; set; }
-        public DateTime LastTask { get; set; }
+        public DateTime NextTask { get; set; }
     }
 }
