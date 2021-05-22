@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataLibrary.Models;
@@ -11,18 +11,17 @@ namespace WebAppUsers.Controllers
     [Route("api/v1/timezone")]
     public class TimeZomeController : ControllerBase
     {
-        private readonly supercomDbContext _context;
+        ITimeZoneService _timeZoneService;
 
-        public TimeZomeController(supercomDbContext context)
+        public TimeZomeController(ITimeZoneService timeZoneService)
         {
-            _context = context;
+            _timeZoneService = timeZoneService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> GetAll()
         {
-            TimeZoneService service = new TimeZoneService(_context);
-            var res = await Task.FromResult(service
+            var res = await Task.FromResult(_timeZoneService
                 .getAll()
                 .ConvertAll(x => TimeZoneMapper.ToShortDto(x))
                 );

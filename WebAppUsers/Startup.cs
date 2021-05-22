@@ -1,3 +1,4 @@
+using DataLibrary.BL;
 using DataLibrary.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,12 +30,15 @@ namespace WebAppUsers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // add connection string to context 
+            // inject db context to services 
             services.AddDbContext<supercomDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("supercomDb")));
-
-            //todo - add to config file
-            //The specified URL must not contain a trailing slash(/)
+            // inject business logic services
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITimeZoneService, TimeZoneService>();
+            // enable CORS for debug / test env
+            // todo - add to config file
+            // The specified URL must not contain a trailing slash(/)
             string[] AllowedOriginsUrls = new string[] { "http://localhost:3000" };
             services.AddCors(options =>
             {

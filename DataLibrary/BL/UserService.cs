@@ -6,7 +6,14 @@ using DataLibrary.Models;
 
 namespace DataLibrary.BL
 {
-    public class UserService
+    public interface IUserService
+    {
+        bool testDb();
+        User getUser(long userId);
+        List<Models.User> getAllUsers();
+        long addUser(Models.User user);
+    }
+    public class UserService : IUserService
     {
         private readonly supercomDbContext _context;
 

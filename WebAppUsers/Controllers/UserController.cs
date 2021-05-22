@@ -19,26 +19,24 @@ namespace WebAppUsers.Controllers
     [Route("api/v1/users")]
     public class UserController : ControllerBase
     {
-        private readonly supercomDbContext _context;
+        private readonly IUserService _userSrvice;
 
-        public UserController(supercomDbContext context)
+        public UserController(IUserService userSrvice)
         {
-            _context = context;
+            _userSrvice = userSrvice;
         }
 
         [HttpGet("{id}")]
         public async Task<UserShortDto> GetUser(long id)
         {
-            UserService service = new UserService(_context);
-            var res = await Task.FromResult(UeserMapper.ToShortDto(service.getUser(id)));
+            var res = await Task.FromResult(UeserMapper.ToShortDto(_userSrvice.getUser(id)));
             return res;
         }
 
         [HttpGet("")]
         public async Task<List<UserShortDto>> GetAllUsers()
         {
-            UserService service = new UserService(_context);
-            var res = await Task.FromResult(service
+            var res = await Task.FromResult(_userSrvice
                 .getAllUsers()
                 .ConvertAll(x => UeserMapper.ToShortDto(x))
                 );
@@ -50,8 +48,7 @@ namespace WebAppUsers.Controllers
         public async Task<UserRes> Create([FromBody] UserAddDto userDto)
         {
             User user = UeserMapper.UserFromAddDto(userDto);
-            UserService service = new UserService(_context);
-            long userid = await Task.FromResult(service.addUser(user));
+            long userid = await Task.FromResult(_userSrvice.addUser(user));
             var res = new UserRes { UserId = userid.ToString() };
             return res;
         }

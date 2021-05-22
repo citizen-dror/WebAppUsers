@@ -5,7 +5,11 @@ using DataLibrary.Models;
 
 namespace DataLibrary.BL
 {
-    public class TimeZoneService
+    public interface ITimeZoneService
+    {
+        List<Models.TimeZone> getAll();
+    }
+    public class TimeZoneService: ITimeZoneService
     {
         private readonly supercomDbContext _context;
 
