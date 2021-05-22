@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataLibrary.Models;
 using DataLibrary.BL;
+using WebAppUsers.Helpers;
 
 namespace WebAppUsers.Controllers
 {
@@ -19,11 +20,15 @@ namespace WebAppUsers.Controllers
 
         [HttpGet("")]
         // public async Task<ActionResult<User>> GetUer(long id)
-        public async Task<List<DataLibrary.Models.TimeZone>> GetAll()
+        // public async Task<List<DataLibrary.Models.TimeZoneDto>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             TimeZoneService service = new TimeZoneService(_context);
-            var res = await Task.FromResult(service.getAll());
-            return res;
+            var res = await Task.FromResult(service
+                .getAll()
+                .ConvertAll(x => TimeZoneMapper.ToShortDto(x))
+                );
+            return Ok(res);
         }
     }
 }

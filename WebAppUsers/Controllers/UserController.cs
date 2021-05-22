@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLibrary.Models;
 using DataLibrary.BL;
+using WebAppUsers.ModelsDto;
+using WebAppUsers.Helpers;
 
 namespace WebAppUsers.Controllers
 {
@@ -44,8 +45,9 @@ namespace WebAppUsers.Controllers
 
         // POST: UserController/Create
         [HttpPost]
-        public async Task<UserRes> Create([FromBody] User user)
+        public async Task<UserRes> Create([FromBody] UserAddDto userDto)
         {
+            User user = UeserMapper.UserFromAddDto(userDto);
             UserService service = new UserService(_context);
             long userid = await Task.FromResult(service.addUser(user));
             var res = new UserRes { UserId = userid.ToString() };
