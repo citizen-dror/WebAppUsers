@@ -19,8 +19,6 @@ namespace WebAppUsers.Controllers
         }
 
         [HttpGet("")]
-        // public async Task<ActionResult<User>> GetUer(long id)
-        // public async Task<List<DataLibrary.Models.TimeZoneDto>> GetAll()
         public async Task<IActionResult> GetAll()
         {
             TimeZoneService service = new TimeZoneService(_context);
