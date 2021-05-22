@@ -45,12 +45,16 @@ namespace WebAppUsers.Controllers
 
         // POST: UserController/Create
         [HttpPost]
-        public async Task<UserRes> Create([FromBody] UserAddDto userDto)
+        public async Task<IActionResult> Create([FromBody] UserAddDto userDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return new BadRequestResult();
+            }
             User user = UeserMapper.UserFromAddDto(userDto);
             long userid = await Task.FromResult(_userSrvice.addUser(user));
             var res = new UserRes { UserId = userid.ToString() };
-            return res;
+            return Ok(res);
         }
     }
 }
